@@ -5,7 +5,6 @@ import ms.kx.Application.dto.UserDTO;
 import ms.kx.Application.entity.Roles;
 import ms.kx.Application.entity.User;
 import ms.kx.Application.repository.UserRepository;
-import ms.kx.Application.utility.RegisterAuthWithMail;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,16 +16,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
-    private final RegisterAuthWithMail registerAuthWithMail;
     String DEFAULT_USER_ICON_URL = "https://uxwing.com/wp-content/themes/uxwing/download/peoples-avatars/corporate-user-icon.png";
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("UsernameNotFoundException"));
     }
 
+
     public User getUserById(Long id){
         return userRepository.findById(id).orElseThrow();
     }
+
 
     public void changeUserLabels(Long id, UserDTO userDTO){
         User user = getUserById(id);
@@ -43,6 +43,7 @@ public class UserService implements UserDetailsService {
                         .build()
         );
     }
+
 
     public void registerNewUser(UserDTO userDTO){
             User user = User.builder()
