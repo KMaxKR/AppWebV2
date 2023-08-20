@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .dashboard {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .user-card {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .user-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ccc;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+         .button {
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <div class="user-card" th:each="user : ${user}">
+        <form th:action="@{/api/v1/dashboard/change/{id}(id = ${user.id})}" method="post" style="margin: 20px;">
+        <div class="user-icon">
+            <img th:src="@{${user.user_icon}}" alt="image" src="" width="50" height="50">
+        </div>
+            <label>
+                <input alt="" name="user_icon" type="text" placeholder="New Avatar URL">
+            </label>
+        <label>
+            <input type='text' name='username' th:value="${user.username}">
+        </label>
+        <label>
+            <input type='email' name='email' th:value="${user.email}">
+        </label>
+        <label>
+            <input type="password" name="password" placeholder="New password" required>
+        </label>
+            <button class="button" type="submit" th:value="${user.id}"><a style="text-decoration: none; color: white;">Change</a></button>
+        </form>
+
+        <button class="button"><a style="text-decoration: none; color: white;" href="/api/v1/dashboard">Cancel</a></button>
+    </div>
+</div>
+</body>
+</html>
